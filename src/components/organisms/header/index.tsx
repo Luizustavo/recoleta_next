@@ -1,6 +1,7 @@
-import Button from "@/components/atoms/button/index";
-import Image from "next/image";
-import React from "react";
+import Button from '@/components/atoms/button/index';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 
 const Header: React.FC = () => {
   return (
@@ -12,16 +13,21 @@ const Header: React.FC = () => {
           width={60}
           height={60}
         />
-        <h1 className="text-3xl font-bold text-white">ReColeta</h1>
+        <h1
+          className="xl:text-3xl text-2xl md:ml-4 2xl:ml-28 xl:ml-16 font-bold text-[#F6F6F6]"
+          style={{ textShadow: '1px 2px 4px rgba(0, 0, 0, 0.7)' }}
+        >
+          ReColeta
+        </h1>
       </span>
 
       <nav className="col-span-4 self-center justify-center">
         <ul
-          className="flex flex-row font-extrabold text-white justify-center gap-16 text-2xl"
-          style={{ textShadow: "1px 2px 4px rgba(0, 0, 0, 0.7)" }}
+          className="flex flex-row font-bold text-[#F6F6F6] justify-center 2xl:space-x-24 xl:space-x-12 md:gap-x-2 space-x-5 xl:text-xl text-base"
+          style={{ textShadow: '1px 2px 4px rgba(0, 0, 0, 0.7)' }}
         >
           <li>
-            <a href="#">Notícias</a>
+            <Link href="https://recoleta-news.vercel.app/">Notícias</Link>
           </li>
           <li>
             <a href="#">Sobre nós</a>
