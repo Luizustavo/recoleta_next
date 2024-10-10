@@ -11,8 +11,21 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        green:{
+          light: '#84F84D',
+          DEFAULT: '#62F61C',
+          dark: '#4BD609',
+        },
+        blue:{
+          light: '#4DD8F8',
+          DEFAULT: '#1CCDF6',
+          dark: '#09B9D6',
+        },
+        orange: {
+          light: '#FF7C1E',
+          DEFAULT: '#EA6200',
+          dark: '#DB5C00',
+        }
       },
     },
   },

@@ -10,6 +10,9 @@ export default function QAPage() {
         <span className="flex flex-col gap-4 p-4">
           <Button buttonStyle="fill">Fiil</Button>
           <Button buttonStyle="outline">Outline</Button>
+          <Button buttonStyle="fill" disabled>
+            Disabled
+          </Button>
         </span>
       </main>
     </div>

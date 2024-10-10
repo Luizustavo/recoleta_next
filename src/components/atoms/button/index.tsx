@@ -8,6 +8,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: string;
   buttonStyle: "fill" | "outline";
   className?: string;
+  disabled?: boolean;
 }
 
 const Button: FC<ButtonProps> = ({
@@ -15,6 +16,7 @@ const Button: FC<ButtonProps> = ({
   children,
   buttonStyle,
   className,
+  disabled,
   ...props
 }) => {
   return (
@@ -27,7 +29,8 @@ const Button: FC<ButtonProps> = ({
         buttonStyle === "fill"
           ? "bg-blue-600 hover:bg-blue-700 focus:ring-blue-500"
           : " text- bg-blue-700 bg-transparent border border-blue-600 hover:bg-blue-700 focus:ring-blue-500",
-        className
+        className,
+        disabled && "opacity-50 cursor-not-allowed"
       )}
       {...props}
     >
