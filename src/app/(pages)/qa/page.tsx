@@ -1,3 +1,5 @@
+"use client";
+
 import Button from "@/components/atoms/button/index";
 
 export default function QAPage() {
@@ -8,10 +10,14 @@ export default function QAPage() {
       </h1>
       <main className="grid grid-cols-4 gap-4 m-12 w-full h-full">
         <span className="flex flex-col gap-4 p-4">
-          <Button buttonStyle="fill">Fiil</Button>
-          <Button buttonStyle="outline">Outline</Button>
-          <Button buttonStyle="fill" disabled>
-            Disabled
+          <Button variant="primaryFill">Primary Fill</Button>
+          <Button variant="primaryOutline">Primary Outline</Button>
+          <Button variant="secondaryFill">Secondary Fill</Button>
+          <Button variant="secondaryOutline">Secondary Outline</Button>
+          <Button variant="tertiaryFill">Tertiary Fill</Button>
+          <Button variant="tertiaryOutline">Tertiary Outline</Button>
+          <Button variant="primaryFill" disabled>
+            Disableb
           </Button>
         </span>
       </main>
