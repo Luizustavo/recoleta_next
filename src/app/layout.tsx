@@ -1,22 +1,22 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
-import Script from "next/script";
+import type { Metadata } from 'next';
+import localFont from 'next/font/local';
+import './globals.css';
+import Script from 'next/script';
 
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+  src: './fonts/GeistVF.woff',
+  variable: '--font-geist-sans',
+  weight: '100 900',
 });
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+  src: './fonts/GeistMonoVF.woff',
+  variable: '--font-geist-mono',
+  weight: '100 900',
 });
 
 export const metadata: Metadata = {
-  title: "ReColeta",
-  description: "Junte-se a nós e venha fazer a diferença",
+  title: 'ReColeta',
+  description: 'Junte-se a nós e venha fazer a diferença',
 };
 
 export default function RootLayout({

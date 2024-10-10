@@ -1,7 +1,8 @@
-"use client";
+'use client';
 
-import Button from "@/components/atoms/button/index";
-import Header from "@/components/organisms/header/index";
+import Button from '@/components/atoms/button/index';
+import Container from '@/components/atoms/container';
+import Header from '@/components/organisms/header/index';
 
 export default function QAPage() {
   return (
@@ -25,6 +26,124 @@ export default function QAPage() {
           </Button>
         </span>
       </main>
+      <div className="px-2">
+        <Container
+          width="2xl:w-fit 2xl:max-w-full"
+          additionalTWStyles="p-6 "
+          applySolidBackground
+          applyShadowEffect
+          backgroundColor="#FF9A51"
+          shadowEffect="shadow-lg"
+        >
+          <div>Test Container With Containers</div>
+          <div className="space-y-6">
+            <div className="flex flex-wrap space-x-6 justify-between">
+              <Container
+                additionalTWStyles="p-6"
+                height="2xl:h-[600px]"
+                width="2xl:w-[400px]"
+                backgroundColor="#A6FA7E"
+                applySolidBackground
+              >
+                <div className="flex flex-col gap-4 p-2 text-caption-default">
+                  Test Solid Bg Container:
+                </div>
+              </Container>
+              <Container
+                additionalTWStyles="p-6"
+                height="2xl:h-[600px]"
+                width="2xl:w-[400px]"
+                applyMask
+                backgroundColor="#A6FA7E"
+                applySolidBackground
+              >
+                <div className="flex flex-col gap-4 p-2 text-caption-default ">
+                  Test Masks Container:
+                </div>
+              </Container>
+              <Container
+                additionalTWStyles="p-6"
+                height="2xl:h-[600px]"
+                width="2xl:w-[400px]"
+                applyBorder
+                borderStyles="border-2 border-[#A6FA7E]"
+                roundedCorners="rounded"
+              >
+                <div className="flex flex-col gap-4 p-2 text-caption-default">
+                  Test Border Container
+                </div>
+              </Container>
+              <Container
+                additionalTWStyles="p-6"
+                height="2xl:h-[600px]"
+                width="2xl:w-[400px]"
+                applyShadowEffect
+                shadowEffect="shadow-lg"
+              >
+                <div className="flex flex-col gap-4 p-2 text-caption-default">
+                  Test Only Shadow Container
+                </div>
+              </Container>
+            </div>
+            <div className="flex flex-wrap space-x-6 justify-between">
+              <Container
+                additionalTWStyles="p-6"
+                height="2xl:h-[600px]"
+                width="2xl:w-[400px]"
+                applySolidBackground
+                backgroundColor="#7EE3FA"
+                roundedCorners="rounded-none"
+              >
+                <div className="flex flex-col gap-4 p-2 text-caption-default">
+                  Test Solid Bg Container No Rounded
+                </div>
+              </Container>
+              <Container
+                additionalTWStyles="p-6"
+                height="2xl:h-[600px]"
+                width="2xl:w-[400px]"
+                applyMask
+                maskDirection="b-t"
+                maskOpacity={0.3}
+                maskStyle="blue"
+                applySolidBackground
+                applyShadowEffect
+                shadowEffect="shadow-lg"
+                roundedCorners="rounded-none"
+              >
+                <div className="flex flex-col gap-4 p-2 text-caption-default">
+                  Test Custom Masks Container No Rounded
+                </div>
+              </Container>
+              <Container
+                additionalTWStyles="p-6"
+                height="2xl:h-[600px]"
+                width="2xl:w-[400px]"
+                applyBorder
+                borderStyles="border-2 border-[#7EE3FA]"
+                applyShadowEffect
+                shadowEffect="shadow-lg"
+                roundedCorners="rounded-none"
+              >
+                <div className="flex flex-col gap-4 p-2 text-caption-default">
+                  Test Border Container No Rounded
+                </div>
+              </Container>
+              <Container
+                additionalTWStyles="p-6"
+                height="2xl:h-[600px]"
+                width="2xl:w-[400px]"
+                applyShadowEffect
+                shadowEffect="shadow-lg"
+              >
+                <div className="flex flex-col gap-4 p-2 text-caption-default">
+                  Test Only Shadow Container No Rounded
+                </div>
+              </Container>
+            </div>
+          </div>
+        </Container>
+      </div>
     </div>
   );
 }
