@@ -1,9 +1,10 @@
-"use client";
+'use client';
 
-import Button from "@/components/atoms/button/index";
-import Image from "next/image";
-import React, { useState } from "react";
-import { Menu, X } from "lucide-react";
+import Button from '@/components/atoms/button/index';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import { Menu, X } from 'lucide-react';
+import Link from 'next/link';
 
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -25,7 +26,6 @@ const Header: React.FC = () => {
           className="xl:text-3xl text-2xl md:ml-4 2xl:ml-28 xl:ml-16 font-bold text-[#F6F6F6]"
           style={{ textShadow: '1px 2px 4px rgba(0, 0, 0, 0.7)' }}
         >
-
           ReColeta
         </h1>
       </span>
@@ -34,7 +34,6 @@ const Header: React.FC = () => {
         <ul
           className="flex flex-row font-bold text-[#F6F6F6] justify-center 2xl:space-x-24 xl:space-x-12 md:gap-x-2 space-x-5 xl:text-xl text-base"
           style={{ textShadow: '1px 2px 4px rgba(0, 0, 0, 0.7)' }}
-
         >
           <li>
             <Link href="https://recoleta-news.vercel.app/">Notícias</Link>
