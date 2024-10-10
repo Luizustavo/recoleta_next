@@ -1,5 +1,5 @@
-import Button from "@/components/atoms/button";
-import Header from "@/components/organisms/header";
+import Button from '@/components/atoms/button';
+import Header from '@/components/organisms/header';
 
 export default function Home() {
   return (
@@ -21,7 +21,7 @@ export default function Home() {
       <span className="relative z-10 text-white grid grid-cols-4 items-end px-10">
         <h1
           className="text-6xl font-bold col-span-2"
-          style={{ textShadow: "1px 2px 4px rgba(0, 0, 0, 0.7)" }}
+          style={{ textShadow: '1px 2px 4px rgba(0, 0, 0, 0.7)' }}
         >
           Junte-se a nós e venha fazer a diferença
         </h1>
@@ -33,7 +33,7 @@ export default function Home() {
         <div className="col-span-2">
           <p
             className="text-2xl"
-            style={{ textShadow: "1px 2px 4px rgba(0, 0, 0, 0.7)" }}
+            style={{ textShadow: '1px 2px 4px rgba(0, 0, 0, 0.7)' }}
           >
             Junte-se a nós na maneira mais inovadora de salvar o planeta.
             Registre-se agora e faça parte da mudança!
