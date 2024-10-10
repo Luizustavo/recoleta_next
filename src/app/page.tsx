@@ -1,3 +1,5 @@
+"use client";
+
 import Button from "@/components/atoms/button";
 import Header from "@/components/organisms/header";
 
@@ -18,9 +20,9 @@ export default function Home() {
       </span>
 
       {/* Título */}
-      <span className="relative z-10 text-white grid grid-cols-4 items-end px-10">
+      <span className="relative z-10 text-white grid grid-cols-4 items-center sm:items-end px-10">
         <h1
-          className="text-6xl font-bold col-span-2"
+          className="text-2xl sm:text-6xl font-bold col-span-4 sm:col-span-2"
           style={{ textShadow: "1px 2px 4px rgba(0, 0, 0, 0.7)" }}
         >
           Junte-se a nós e venha fazer a diferença
@@ -28,11 +30,11 @@ export default function Home() {
       </span>
 
       {/* Texto e Botões */}
-      <span className="relative z-10 text-white grid grid-cols-5 px-10 mt-4">
+      <span className="relative z-10 text-white grid grid-cols-5 px-10 mt-4 ">
         {/* Texto */}
-        <div className="col-span-2">
+        <div className="col-span-4 sm:col-span-2">
           <p
-            className="text-2xl"
+            className=" sm:text-2xl"
             style={{ textShadow: "1px 2px 4px rgba(0, 0, 0, 0.7)" }}
           >
             Junte-se a nós na maneira mais inovadora de salvar o planeta.
