@@ -21,7 +21,7 @@ export default function About() {
             <p className="text-primary-green">Coleta</p>
           </span>
         </h1>
-        <p className="text-2xl font-light leading-10">
+        <p className="text-xl font-light leading-10">
           Bem-vindo ao Recoleta, o aplicativo que está revolucionando a forma
           como lidamos com resíduos. Nossa missão é conectar geradores de
           resíduos, recicladores e tratadores de resíduos em uma rede
