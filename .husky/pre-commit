@@ -1,0 +1,8 @@
+echo 'Check for lint errors'
+npm run lint
+
+echo 'Check for TS errors'
+npm run type-check
+
+echo 'Build the project'
+npm run build
