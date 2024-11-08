@@ -1,10 +1,10 @@
 'use client';
 
-import { FC, ButtonHTMLAttributes } from 'react';
+import React, { FC, ButtonHTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: string;
+  children: React.ReactNode;
   variant:
     | 'primaryFill'
     | 'secondaryFill'
