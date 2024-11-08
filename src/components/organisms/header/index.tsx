@@ -5,8 +5,10 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const Header: React.FC = () => {
+  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -23,7 +25,7 @@ const Header: React.FC = () => {
           height={60}
         />
         <h1
-          className="xl:text-3xl text-2xl md:ml-4 2xl:ml-28 xl:ml-16 font-bold text-[#F6F6F6]"
+          className="xl:text-3xl text-2xl font-bold text-[#F6F6F6]"
           style={{ textShadow: '1px 2px 4px rgba(0, 0, 0, 0.7)' }}
         >
           ReColeta
@@ -60,6 +62,9 @@ const Header: React.FC = () => {
         <Button
           variant="default"
           className="bg-white text-green-800 border border-green-800 font-bold"
+          onClick={() => {
+            router.push('/login');
+          }}
         >
           Acessar
         </Button>
