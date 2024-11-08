@@ -1,25 +1,66 @@
 import Button from '@/components/atoms/button';
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 import { Input } from '@nextui-org/react';
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
+
+import { loginUser } from '@/app/utils/apiUtils';
+import { useRouter } from 'next/navigation';
 
 interface LoginFormProps {
   setIsLoginComponent: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function LoginForm({ setIsLoginComponent }: LoginFormProps) {
-  const [value, setValue] = React.useState('');
+  const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const validateEmail = (value: string) =>
     /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value);
+
   const isInvalid = React.useMemo(() => {
-    if (value === '') return false;
+    if (email === '') return false;
 
-    return validateEmail(value) ? false : true;
-  }, [value]);
+    return validateEmail(email) ? false : true;
+  }, [email]);
 
-  const [isVisible, setIsVisible] = React.useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!email.trim() || !password.trim()) {
+      setError('Por favor, preencha todos os campos.');
+
+      return;
+    }
+
+    try {
+      setError(null);
+      const response = await loginUser({
+        email,
+        password,
+      });
+
+      if (response.status === 200) {
+        const { accessToken, isAdmin, ...user } = response.data;
+
+        localStorage.setItem('_id', user._id);
+        localStorage.setItem('token', accessToken);
+
+        // Redirect to appropriate route based on user role
+        router.push(isAdmin ? '/reports' : '/dashboard');
+      } else {
+        setError('Credenciais inválidas. Por favor, tente novamente.');
+      }
+    } catch (error) {
+      setError('Credenciais inválidas. Por favor, tente novamente.');
+      console.error('Login error:', error);
+    }
+  };
 
   return (
     <div className="flex flex-col">
@@ -29,13 +70,13 @@ export default function LoginForm({ setIsLoginComponent }: LoginFormProps) {
           Conecte-se para contribuir com um futuro mais sustentável.
         </p>
       </header>
-      <section className="w-full flex flex-col gap-8">
+      <form onSubmit={handleLogin} className="w-full flex flex-col gap-8">
         <Input
-          value={value}
+          value={email}
           type="email"
           label="Email"
           isInvalid={isInvalid}
-          onValueChange={setValue}
+          onValueChange={setEmail}
           color={isInvalid ? 'danger' : undefined}
           errorMessage="Por favor, insira um email válido."
           placeholder="email@exemplo.com"
@@ -45,9 +86,11 @@ export default function LoginForm({ setIsLoginComponent }: LoginFormProps) {
           }
         />
         <Input
+          value={password}
           type={isVisible ? 'text' : 'password'}
           label="Senha"
           placeholder="Informe sua senha"
+          onValueChange={setPassword}
           labelPlacement="outside"
           startContent={
             <Lock className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
@@ -67,11 +110,12 @@ export default function LoginForm({ setIsLoginComponent }: LoginFormProps) {
             </button>
           }
         />
-
-        <Button variant="primaryFill" className="w-full">
+        <Button type="submit" variant="primaryFill" className="w-full">
           Login
         </Button>
-      </section>
+      </form>
+      {error && <div className="login-warning text-red-500 mt-4">{error}</div>}
+
       <span className="flex items-center justify-center my-6 gap-4">
         <hr className="w-full border-t border-gray-300" />
         <span className="text-gray-500">ou</span>
