@@ -1,12 +1,19 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import RegisterForm from '@/components/forms/register';
 import LoginForm from '@/components/forms/login';
 
 export default function Page() {
   const [isLoginComponent, setIsLoginComponent] = useState(true);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    if (queryParams.get('loginComponent') === 'false') {
+      setIsLoginComponent(false);
+    }
+  }, []);
 
   return (
     <div className="relative flex w-full h-screen overflow-hidden">

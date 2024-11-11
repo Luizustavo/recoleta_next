@@ -1,25 +1,57 @@
 import Button from '@/components/atoms/button';
-import { Eye, EyeOff, Mail, Lock, User } from 'lucide-react';
+import {
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  User,
+  Radiation,
+  Recycle,
+} from 'lucide-react';
 import { Input } from '@nextui-org/react';
 import React from 'react';
 import Image from 'next/image';
 import { z } from 'zod';
-
+import { Select, SelectItem, Avatar } from '@nextui-org/react';
+import { registerUser } from '@/app/utils/apiUtils';
+import { useState } from 'react';
 interface RegisterFormProps {
   setIsLoginComponent: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface UserData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  userType: string;
+}
+
+const users = [
+  {
+    id: 1,
+    name: 'Gerador de resíduos',
+    icon: Radiation,
+  },
+  {
+    id: 2,
+    name: 'Coletor de resíduos',
+    icon: Recycle,
+  },
+];
+
 export default function RegisterForm({
   setIsLoginComponent,
 }: RegisterFormProps) {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [isVisible, setIsVisible] = React.useState(false);
-  const [passwordError, setPasswordError] = React.useState('');
-  const [emailError, setEmailError] = React.useState('');
-
-  const [emailTouched, setEmailTouched] = React.useState(false);
-  const [passwordTouched, setPasswordTouched] = React.useState(false);
+  const [userType, setUserType] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
+  const [passwordError, setPasswordError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [passwordTouched, setPasswordTouched] = useState(false);
 
   // Zod validation schema
   const emailSchema = z.string().email('Por favor, insira um email válido.');
@@ -76,6 +108,41 @@ export default function RegisterForm({
     validatePassword();
   }, [email, password]);
 
+  const handleRegister = async (): Promise<void> => {
+    try {
+      validateEmail();
+      validatePassword();
+
+      if (emailError || passwordError || !name || !userType) {
+        alert('Por favor, preencha todos os campos corretamente.');
+
+        return;
+      }
+
+      const userData: UserData = {
+        firstName: name,
+        lastName: 'teste',
+        email,
+        password,
+        userType,
+      };
+
+      console.log('Dados enviados para a API:', userData);
+
+      const response = await registerUser(userData);
+
+      if (response?.status === 200) {
+        alert('Usuário registrado com sucesso!');
+        setIsLoginComponent(true);
+      } else {
+        alert(response?.statusText || 'Erro ao registrar o usuário.');
+      }
+    } catch (error: unknown) {
+      console.error('Erro ao registrar o usuário:', error);
+      alert('Ocorreu um erro inesperado. Tente novamente mais tarde.');
+    }
+  };
+
   return (
     <div className="flex flex-col">
       <header>
@@ -86,10 +153,12 @@ export default function RegisterForm({
       </header>
       <section className="w-full flex flex-col gap-8">
         <Input
+          value={name}
           type="name"
           label="Nome"
           placeholder="John Doe"
           labelPlacement="outside"
+          onValueChange={setName}
           startContent={
             <User className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
           }
@@ -137,12 +206,56 @@ export default function RegisterForm({
             </button>
           }
         />
+
+        <Select
+          value={userType}
+          items={users}
+          onChange={event => setUserType(event.target.value)}
+          label="Tipo de usuário"
+          placeholder="Selecione o tipo de usuário"
+          labelPlacement="outside"
+          classNames={{
+            base: 'max-w-full',
+          }}
+          renderValue={items => {
+            return items.map(item => (
+              <div key={item.key} className="flex items-center gap-2">
+                <Avatar
+                  alt={item.data?.name}
+                  className="flex-shrink-0 bg-primary-dark text-white"
+                  size="sm"
+                  icon={item.data?.icon ? <item.data.icon /> : null}
+                />
+                <div className="flex flex-col">
+                  <span>{item.data?.name}</span>
+                </div>
+              </div>
+            ));
+          }}
+        >
+          {user => (
+            <SelectItem key={user.id} textValue={user.name}>
+              <div className="flex gap-2 items-center">
+                <Avatar
+                  alt={user.name}
+                  className="flex-shrink-0 bg-primary-dark text-white"
+                  size="sm"
+                  icon={user.icon ? <user.icon /> : null}
+                />
+                <div className="flex flex-col">
+                  <span className="text-small">{user.name}</span>
+                </div>
+              </div>
+            </SelectItem>
+          )}
+        </Select>
         <Button
           variant="primaryFill"
           className="w-full"
           disabled={
             !!emailError || !!passwordError || email === '' || password === ''
           }
+          onClick={handleRegister}
         >
           Cadastrar
         </Button>
