@@ -2,8 +2,11 @@
 
 import Button from '@/components/atoms/button';
 import Header from '@/components/organisms/header';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+
   return (
     <div className="grid grid-rows-3 bg-black relative h-screen">
       <video
@@ -46,6 +49,7 @@ export default function Home() {
             <Button
               variant="default"
               className="bg-white text-green-800 border border-green-800 font-bold px-6 py-3"
+              onClick={() => router.push('/login?loginComponent=false')}
             >
               Cadastre-se
             </Button>
