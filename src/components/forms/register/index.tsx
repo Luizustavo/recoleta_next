@@ -21,7 +21,6 @@ interface RegisterFormProps {
 
 interface UserData {
   firstName: string;
-  lastName: string;
   email: string;
   password: string;
   userType: string;
@@ -121,7 +120,6 @@ export default function RegisterForm({
 
       const userData: UserData = {
         firstName: name,
-        lastName: 'teste',
         email,
         password,
         userType,
