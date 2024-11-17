@@ -19,3 +19,9 @@
   --heading-default: 1.5rem; /* 24px / 16 */
   --heading-large: 2.375rem; /* 38px / 16 */
 }
+
+@layer base {
+  :root {
+    --radius: 0.5rem
+  }
+}
