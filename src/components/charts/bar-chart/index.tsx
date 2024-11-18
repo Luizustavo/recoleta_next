@@ -48,13 +48,13 @@ const chartConfig = {
 
 export function BarChartLabel() {
   return (
-    <Card className="h-full">
+    <Card className="max-h-full">
       <CardHeader>
         <CardTitle>Resíduos reciclados</CardTitle>
         <CardDescription>Categorias</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer config={chartConfig} className="max-h-60 w-full">
           <BarChart
             accessibilityLayer
             data={chartData}
@@ -88,7 +88,7 @@ export function BarChartLabel() {
                 dataKey="month"
                 position="insideLeft"
                 offset={8}
-                className="fill-[--color-label]"
+                className="fill-[--color-label] font-bold"
                 fontSize={12}
               />
               <LabelList
