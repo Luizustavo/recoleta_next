@@ -59,7 +59,7 @@ export const AvailableCollects: React.FC<AvailableCollectsProps> = ({
       <span>Coletas Disponíveis:</span>
       <div className="space-x-2 flex flex-wrap">
         {collects.map(collect => (
-          <CollectCard key={collect.id} collect={collect} />
+          <CollectCard key={collect._id} collect={collect} />
         ))}
       </div>
     </Container>
