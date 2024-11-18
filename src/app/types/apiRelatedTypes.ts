@@ -2,7 +2,9 @@ export interface ServerUserData {
   // Define fields here based on your data structure
   email: string;
   _id: string;
-  name?: string;
+  firstName?: string;
+  lastName?: string;
+  userType?: string;
   // other fields as necessary
 }
 

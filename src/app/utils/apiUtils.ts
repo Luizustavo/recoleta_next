@@ -103,3 +103,19 @@ export const loginUser = async (credentials: {
     throw error;
   }
 };
+
+export const getAvailableCollects = async (accessToken: string) => {
+  const response = await fetch('http://localhost:5000/api/events', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch collects');
+  }
+
+  return response.json(); // Returns { data: CollectProps[] }
+};
