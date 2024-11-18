@@ -66,7 +66,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function Component() {
+export function LineChartComponent() {
   const [activeChart, setActiveChart] =
     React.useState<keyof typeof chartConfig>('gerados');
 
@@ -83,7 +83,7 @@ export function Component() {
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
           <CardTitle>Quantidade de Resíduos</CardTitle>
-          <CardDescription>Kg mensais</CardDescription>
+          <CardDescription>Kg diários</CardDescription>
         </div>
         <div className="flex">
           {['gerados', 'reciclados'].map(key => {
