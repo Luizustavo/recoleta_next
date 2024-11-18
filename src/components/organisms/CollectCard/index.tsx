@@ -34,7 +34,7 @@ export const CollectCard: React.FC<CollectCardProps> = ({ collect }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/events/${collect._id}/sign`,
+        `${process.env.NEXT_PUBLIC_API_URL}/events/${collect._id}/sign`,
         {
           method: 'POST',
           headers: {

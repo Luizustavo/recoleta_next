@@ -26,17 +26,20 @@ export const CreateACollect: React.FC = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/events/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // Send token in the Authorization header
-        },
-        body: JSON.stringify({
-          eventName,
-          description,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/events/create`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`, // Send token in the Authorization header
+          },
+          body: JSON.stringify({
+            eventName,
+            description,
+          }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
