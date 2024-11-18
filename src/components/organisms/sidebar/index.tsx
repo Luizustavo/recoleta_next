@@ -2,15 +2,15 @@
 
 import * as React from 'react';
 import {
-  BookOpen,
-  Bot,
-  Frame,
+  Handshake,
+  History,
+  Lightbulb,
   LifeBuoy,
-  Map,
-  PieChart,
+  Goal,
+  Flower,
   Send,
-  Settings2,
-  SquareTerminal,
+  Settings,
+  LayoutDashboard,
 } from 'lucide-react';
 
 import { NavMain } from '@/components/organisms/sidebar/nav-main';
@@ -38,13 +38,13 @@ const data = {
     {
       title: 'Dashboard',
       url: 'dashboard',
-      icon: SquareTerminal,
+      icon: LayoutDashboard,
       isActive: true,
     },
     {
       title: 'Histórico de Coletas',
       url: '#',
-      icon: Bot,
+      icon: History,
       items: [
         {
           title: 'Minhas Coletas',
@@ -63,7 +63,7 @@ const data = {
     {
       title: 'Parceiros de Reciclagem ',
       url: '#',
-      icon: BookOpen,
+      icon: Handshake,
       items: [
         {
           title: 'Lista de Parceiros',
@@ -78,7 +78,7 @@ const data = {
     {
       title: 'Settings',
       url: '#',
-      icon: Settings2,
+      icon: Settings,
       items: [
         {
           title: 'General',
@@ -115,17 +115,17 @@ const data = {
     {
       name: 'Dicas de Reciclagem',
       url: '#',
-      icon: Frame,
+      icon: Lightbulb,
     },
     {
       name: 'Impacto Ambiental',
       url: '#',
-      icon: PieChart,
+      icon: Flower,
     },
     {
       name: 'Objetivos da ONU',
       url: '#',
-      icon: Map,
+      icon: Goal,
     },
   ],
 };
