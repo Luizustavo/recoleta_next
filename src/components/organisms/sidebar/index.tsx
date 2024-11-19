@@ -27,12 +27,13 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import Image from 'next/image';
+import { useAuth } from '@/hooks/use-auth';
+import { SidebarMenuSkeleton } from '@/components/ui/sidebar';
 
 const data = {
   user: {
     name: 'Jane Doe',
     email: 'janedoe@email.com',
-    avatar: '/images/avatar.jpg',
   },
   navMain: [
     {
@@ -133,6 +134,11 @@ const data = {
 export function SidebarComponent({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
+  const { userData, loading } = useAuth();
+  if (loading) {
+    return <SidebarMenuSkeleton />;
+  }
+
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -164,7 +170,13 @@ export function SidebarComponent({
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser
+          user={{
+            name: `${userData?.firstName ?? ''} ${userData?.lastName ?? ''}`,
+            email: userData?.email ?? '',
+            avatar: 'https://api.dicebear.com/9.x/bottts/svg',
+          }}
+        />
       </SidebarFooter>
     </Sidebar>
   );

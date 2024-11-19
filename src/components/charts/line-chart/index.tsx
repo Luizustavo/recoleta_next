@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
-
 import {
   Card,
   CardContent,
@@ -16,6 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
+import CountUp from 'react-countup';
 
 export const description = 'An interactive bar chart';
 
@@ -100,7 +100,11 @@ export function LineChartComponent() {
                   {chartConfig[chart].label}
                 </span>
                 <span className="text-lg font-bold leading-none sm:text-3xl">
-                  {total[key as keyof typeof total].toLocaleString()}
+                  <CountUp
+                    end={total[key as keyof typeof total]}
+                    delay={1}
+                    duration={3}
+                  />
                 </span>
               </button>
             );

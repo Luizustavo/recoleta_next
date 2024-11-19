@@ -12,6 +12,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import { ModeToggle } from '@/components/theme/mode-toggle';
+import { AuthProvider } from '@/context/auth-context';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -22,23 +23,25 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       disableTransitionOnChange
     >
       <SidebarProvider>
-        <SidebarComponent />
-        <main>
-          <div className="flex gap-3 items-center pt-2">
-            <SidebarTrigger />
-            <Separator orientation="vertical" className="mr-2 h-4" />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="dashboard">Dashboard</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-              </BreadcrumbList>
-            </Breadcrumb>{' '}
-            <ModeToggle />
-          </div>
-          {children}
-        </main>
+        <AuthProvider>
+          <SidebarComponent />
+          <main>
+            <div className="flex gap-3 items-center pt-2">
+              <SidebarTrigger />
+              <Separator orientation="vertical" className="mr-2 h-4" />
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem className="hidden md:block">
+                    <BreadcrumbLink href="dashboard">Dashboard</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator className="hidden md:block" />
+                </BreadcrumbList>
+              </Breadcrumb>{' '}
+              <ModeToggle />
+            </div>
+            {children}
+          </main>
+        </AuthProvider>
       </SidebarProvider>
     </ThemeProvider>
   );
