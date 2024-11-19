@@ -15,6 +15,8 @@ import { z } from 'zod';
 import { Select, SelectItem, Avatar } from '@nextui-org/react';
 import { registerUser } from '@/app/utils/apiUtils';
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+
 interface RegisterFormProps {
   setIsLoginComponent: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -24,16 +26,15 @@ interface UserData {
   email: string;
   password: string;
   userType: string;
+  _id: string;
 }
 
 const users = [
   {
-    id: 1,
     name: 'Gerador de resíduos',
     icon: Radiation,
   },
   {
-    id: 2,
     name: 'Coletor de resíduos',
     icon: Recycle,
   },
@@ -43,7 +44,7 @@ export default function RegisterForm({
   setIsLoginComponent,
 }: RegisterFormProps) {
   const [userType, setUserType] = useState('');
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isVisible, setIsVisible] = useState(false);
@@ -112,18 +113,20 @@ export default function RegisterForm({
       validateEmail();
       validatePassword();
 
-      if (emailError || passwordError || !name || !userType) {
+      if (emailError || passwordError || !firstName || !userType) {
         alert('Por favor, preencha todos os campos corretamente.');
 
         return;
       }
 
       const userData: UserData = {
-        firstName: name,
+        firstName,
         email,
         password,
         userType,
+        _id: uuidv4(),
       };
+      localStorage.setItem('_id', String(userData._id));
 
       console.log('Dados enviados para a API:', userData);
 
@@ -151,12 +154,12 @@ export default function RegisterForm({
       </header>
       <section className="w-full flex flex-col gap-8">
         <Input
-          value={name}
+          value={firstName}
           type="name"
           label="Nome"
           placeholder="John Doe"
           labelPlacement="outside"
-          onValueChange={setName}
+          onValueChange={setFirstName}
           startContent={
             <User className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
           }
@@ -232,7 +235,7 @@ export default function RegisterForm({
           }}
         >
           {user => (
-            <SelectItem key={user.id} textValue={user.name}>
+            <SelectItem key={user.name} textValue={user.name}>
               <div className="flex gap-2 items-center">
                 <Avatar
                   alt={user.name}

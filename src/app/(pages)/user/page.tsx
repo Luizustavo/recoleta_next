@@ -62,8 +62,8 @@ export default function UserHome() {
     <>
       <div className="p-2 space-y-2">
         <UserProfileHeader userData={userData} />
-        {userData.userType === 'WASTE_PRODUCER' && <CreateACollect />}
-        {userData.userType === 'COLLECTS_WASTE' && (
+        {userData.userType === 'Gerador de resíduos' && <CreateACollect />}
+        {userData.userType === 'Coletor de resíduos' && (
           <AvailableCollects accessToken={accessToken} />
         )}
       </div>
