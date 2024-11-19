@@ -60,7 +60,7 @@ export default function Dashboard() {
                     suffix="kg"
                     className="font-bold text-lg"
                     delay={1}
-                    duration={5}
+                    duration={2}
                   />
                 </Card>
                 <Card className="p-3 flex flex-col items-center justify-center">
@@ -70,7 +70,7 @@ export default function Dashboard() {
                   <Countup
                     end={3562}
                     delay={1}
-                    duration={5}
+                    duration={2}
                     suffix="l"
                     className="font-bold text-lg"
                   />
@@ -82,7 +82,7 @@ export default function Dashboard() {
                   <Countup
                     end={3542}
                     delay={1}
-                    duration={5}
+                    duration={2}
                     suffix="kg"
                     className="font-bold text-lg"
                   />
