@@ -7,6 +7,7 @@ import { AvailableCollects } from '@/components/organisms/AvailableCollects';
 
 import { UserProfileHeader } from '@/components/organisms/UserProfileHeader';
 import { CreateACollect } from '@/components/organisms/CreateACollect';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function UserHome() {
   const router = useRouter();
@@ -46,15 +47,23 @@ export default function UserHome() {
   }, [router]);
 
   if (!userData || !accessToken) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex flex-col space-y-3">
+        <Skeleton className="h-[125px] w-[250px] rounded-xl" />
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-[250px]" />
+          <Skeleton className="h-4 w-[200px]" />
+        </div>
+      </div>
+    );
   }
 
   return (
     <>
       <div className="p-2 space-y-2">
         <UserProfileHeader userData={userData} />
-        {userData.userType === 'WASTE_PRODUCER' && <CreateACollect />}
-        {userData.userType === 'COLLECTS_WASTE' && (
+        {userData.userType === 'Gerador de resíduos' && <CreateACollect />}
+        {userData.userType === 'Coletor de resíduos' && (
           <AvailableCollects accessToken={accessToken} />
         )}
       </div>
