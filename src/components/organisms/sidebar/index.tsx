@@ -43,7 +43,7 @@ const data = {
       isActive: true,
     },
     {
-      title: 'Histórico de Coletas',
+      title: 'Gerenciar Coletas',
       url: '#',
       icon: History,
       items: [
@@ -52,12 +52,12 @@ const data = {
           url: '#',
         },
         {
-          title: 'Coletas Pendentes',
-          url: '#',
+          title: 'Coletar Resíduo',
+          url: '/waste-collection',
         },
         {
-          title: 'Coletas Finalizadas',
-          url: '#',
+          title: 'Descartar Resíduo',
+          url: '/waste-register',
         },
       ],
     },
