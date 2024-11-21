@@ -19,6 +19,19 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import * as z from 'zod';
+
+const schema = z.object({
+  cep: z.string().min(1, { message: 'CEP é obrigatório' }),
+  rua: z.string().min(1, { message: 'Rua é obrigatória' }),
+  numero: z.string().min(1, { message: 'Número é obrigatório' }),
+  bairro: z.string().min(1, { message: 'Bairro é obrigatório' }),
+  cidade: z.string().min(1, { message: 'Cidade é obrigatória' }),
+  estado: z.string().min(1, { message: 'Estado é obrigatório' }),
+  complemento: z.string().optional(),
+});
+
+type Schema = z.infer<typeof schema>;
 
 export default function EnderecoCadastro({
   nextStep,
@@ -27,12 +40,7 @@ export default function EnderecoCadastro({
   nextStep: () => void;
   prevStep: () => void;
 }) {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log('Endereço adicionado.');
-    nextStep(); // Avança para o próximo passo
-  };
-  const [endereco, setEndereco] = useState({
+  const [endereco, setEndereco] = useState<Schema>({
     cep: '',
     rua: '',
     numero: '',
@@ -42,7 +50,7 @@ export default function EnderecoCadastro({
     estado: '',
   });
 
-  const [enderecosCadastrados, setEnderecosCadastrados] = useState([
+  const [enderecosCadastrados] = useState([
     {
       id: 1,
       rua: 'Rua das Flores',
@@ -62,7 +70,9 @@ export default function EnderecoCadastro({
       cep: '01310-100',
     },
   ]);
-  console.log(setEnderecosCadastrados);
+
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setEndereco(prev => ({ ...prev, [name]: value }));
@@ -70,6 +80,62 @@ export default function EnderecoCadastro({
 
   const handleEstadoChange = (value: string) => {
     setEndereco(prev => ({ ...prev, estado: value }));
+  };
+
+  function resetAddress() {
+    setEndereco({
+      cep: '',
+      rua: '',
+      numero: '',
+      complemento: '',
+      bairro: '',
+      cidade: '',
+      estado: '',
+    });
+  }
+
+  async function onChangeCep(cep: string) {
+    try {
+      if (cep.length !== 8) {
+        resetAddress();
+
+        return;
+      }
+      const response = await fetch(`/api/cep?cep=${cep}`);
+      if (!response.ok) {
+        throw new Error('CEP não encontrado');
+      }
+      const data = await response.json();
+
+      setEndereco(prev => ({
+        ...prev,
+        rua: data.logradouro || '',
+        bairro: data.bairro || '',
+        cidade: data.localidade || '',
+        estado: data.uf || '',
+      }));
+    } catch (error) {
+      console.error('Erro ao buscar o CEP:', error);
+    }
+  }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const result = schema.safeParse(endereco);
+    if (!result.success) {
+      // Armazenar os erros de validação no estado
+      const newErrors: { [key: string]: string } = {};
+      result.error.errors.forEach(err => {
+        newErrors[err.path[0]] = err.message;
+      });
+      setErrors(newErrors);
+
+      return;
+    }
+
+    console.log('Endereço adicionado:', endereco);
+    nextStep(); // Avança para o próximo passo
   };
 
   return (
@@ -87,6 +153,7 @@ export default function EnderecoCadastro({
             <TabsTrigger value="cadastrados">Endereços Cadastrados</TabsTrigger>
             <TabsTrigger value="novo">Novo Endereço</TabsTrigger>
           </TabsList>
+
           <TabsContent value="cadastrados">
             <form onSubmit={handleSubmit} className="space-y-4">
               {enderecosCadastrados.map(endereco => (
@@ -109,7 +176,6 @@ export default function EnderecoCadastro({
                 </Card>
               ))}
               <div className="flex justify-end gap-4 items-center">
-                {' '}
                 <Button type="button" onClick={prevStep}>
                   Voltar
                 </Button>
@@ -117,6 +183,7 @@ export default function EnderecoCadastro({
               </div>
             </form>
           </TabsContent>
+
           <TabsContent value="novo">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
@@ -128,7 +195,11 @@ export default function EnderecoCadastro({
                     value={endereco.cep}
                     onChange={handleChange}
                     placeholder="00000-000"
+                    onBlur={() => onChangeCep(endereco.cep)} // Chama a API ao perder o foco
                   />
+                  {errors.cep && (
+                    <p className="text-red-500 text-sm">{errors.cep}</p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="numero">Número</Label>
@@ -139,6 +210,9 @@ export default function EnderecoCadastro({
                     onChange={handleChange}
                     placeholder="123"
                   />
+                  {errors.numero && (
+                    <p className="text-red-500 text-sm">{errors.numero}</p>
+                  )}
                 </div>
               </div>
               <div className="space-y-2">
@@ -150,6 +224,9 @@ export default function EnderecoCadastro({
                   onChange={handleChange}
                   placeholder="Rua das Flores"
                 />
+                {errors.rua && (
+                  <p className="text-red-500 text-sm">{errors.rua}</p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="complemento">Complemento (opcional)</Label>
@@ -170,6 +247,9 @@ export default function EnderecoCadastro({
                   onChange={handleChange}
                   placeholder="Centro"
                 />
+                {errors.bairro && (
+                  <p className="text-red-500 text-sm">{errors.bairro}</p>
+                )}
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -182,6 +262,9 @@ export default function EnderecoCadastro({
                     onChange={handleChange}
                     placeholder="São Paulo"
                   />
+                  {errors.cidade && (
+                    <p className="text-red-500 text-sm">{errors.cidade}</p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="estado">Estado</Label>
@@ -190,21 +273,20 @@ export default function EnderecoCadastro({
                     value={endereco.estado}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Selecione o estado" />
+                      <SelectValue placeholder="Selecione o Estado" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="AC">Acre</SelectItem>
-                      <SelectItem value="AL">Alagoas</SelectItem>
-                      {/* Adicione os outros estados aqui */}
                       <SelectItem value="SP">São Paulo</SelectItem>
-                      <SelectItem value="TO">Tocantins</SelectItem>
+                      <SelectItem value="RJ">Rio de Janeiro</SelectItem>
                     </SelectContent>
                   </Select>
+                  {errors.estado && (
+                    <p className="text-red-500 text-sm">{errors.estado}</p>
+                  )}
                 </div>
               </div>
-              <div className="flex justify-end items-center"> </div>
+
               <div className="flex justify-end gap-4 items-center">
-                {' '}
                 <Button type="button" onClick={prevStep}>
                   Voltar
                 </Button>
