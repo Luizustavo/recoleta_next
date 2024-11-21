@@ -62,7 +62,10 @@ const Header: React.FC = () => {
         <Button
           variant="default"
           className="bg-white text-green-800 border border-green-800 font-bold"
-          onClick={() => router.push('/login')}
+          onClick={() => {
+            router.push('/login');
+            console.log('Clicou');
+          }}
         >
           Acessar
         </Button>
