@@ -52,7 +52,7 @@ export default function LoginForm({ setIsLoginComponent }: LoginFormProps) {
         localStorage.setItem('token', accessToken);
 
         // Redirect to appropriate route based on user role
-        router.push(isAdmin ? '/admin' : '/user');
+        router.push(isAdmin ? '/admin' : '/dashboard');
       } else {
         setError('Credenciais inválidas. Por favor, tente novamente.');
       }
