@@ -5,10 +5,8 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 const Header: React.FC = () => {
-  const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -62,12 +60,8 @@ const Header: React.FC = () => {
         <Button
           variant="default"
           className="bg-white text-green-800 border border-green-800 font-bold"
-          onClick={() => {
-            router.push('/login');
-            console.log('Clicou');
-          }}
         >
-          Acessar
+          <a href="/login">Acessar </a>
         </Button>
       </span>
 
