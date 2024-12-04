@@ -1,9 +1,11 @@
+'use client';
+
 import Button from '@/components/atoms/button';
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 import { Input } from '@nextui-org/react';
 import React, { useState } from 'react';
 import Image from 'next/image';
-
+import { signIn } from 'next-auth/react';
 import { loginUser } from '@/app/utils/apiUtils';
 import { useRouter } from 'next/navigation';
 
@@ -123,7 +125,11 @@ export default function LoginForm({ setIsLoginComponent }: LoginFormProps) {
       </span>
       <section className="flex gap-10 justify-center">
         <div>
-          <Button variant="primaryOutline" className="flex gap-3 text-sm">
+          <Button
+            variant="primaryOutline"
+            className="flex gap-3 text-sm"
+            onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+          >
             <Image
               src="/images/icon-google.svg"
               alt="icon-google"
@@ -134,7 +140,11 @@ export default function LoginForm({ setIsLoginComponent }: LoginFormProps) {
           </Button>
         </div>
         <div>
-          <Button variant="primaryOutline" className="flex gap-3 text-sm">
+          <Button
+            variant="primaryOutline"
+            className="flex gap-3 text-sm"
+            onClick={() => signIn('facebook', { callbackUrl: '/dashboard' })}
+          >
             <Image
               src="/images/icon-facebook.svg"
               alt="icon-facebook"
