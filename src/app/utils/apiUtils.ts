@@ -11,7 +11,10 @@ export const getAllUserData = async (
 ): Promise<AxiosResponse<ServerUserData[]>> => {
   try {
     const response = await apiClient.get<ServerUserData[]>('/users/', {
-      headers: { token: `Bearer ${accessToken}` },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
 
     return response;
@@ -27,7 +30,9 @@ export const getUserById = async (
 ): Promise<AxiosResponse<ServerUserData>> => {
   try {
     const response = await apiClient.get<ServerUserData>(`/users/find/${_id}`, {
-      headers: { token: `Bearer ${accessToken}` },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
 
     return response;
@@ -47,7 +52,10 @@ export const updateUserProfile = async (
       `/users/${_id}`,
       serverUserData,
       {
-        headers: { token: `Bearer ${accessToken}` },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
       }
     );
 
@@ -64,7 +72,10 @@ export const deleteUser = async (
 ): Promise<void> => {
   try {
     await apiClient.delete(`/users/${_id}`, {
-      headers: { token: `Bearer ${accessToken}` },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
   } catch (error: unknown) {
     console.error('Error deleting user:');
@@ -102,4 +113,20 @@ export const loginUser = async (credentials: {
     console.error('Error logging in user:');
     throw error;
   }
+};
+
+export const getAvailableCollects = async (accessToken: string) => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/events`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch collects');
+  }
+
+  return response.json(); // Returns { data: CollectProps[] }
 };

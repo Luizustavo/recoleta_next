@@ -24,21 +24,17 @@ import {
 } from '@/components/ui/chart';
 
 const chartData = [
-  { month: 'Metal', desktop: 186, mobile: 80 },
-  { month: 'Borracha', desktop: 305, mobile: 200 },
-  { month: 'Óleo', desktop: 237, mobile: 120 },
-  { month: 'Papel', desktop: 73, mobile: 190 },
-  { month: 'Plástico', desktop: 209, mobile: 130 },
-  { month: 'Vidro', desktop: 214, mobile: 140 },
+  { residuo: 'Metal', quantidade: 186 },
+  { residuo: 'Borracha', quantidade: 305 },
+  { residuo: 'Óleo', quantidade: 237 },
+  { residuo: 'Papel', quantidade: 73 },
+  { residuo: 'Plástico', quantidade: 209 },
+  { residuo: 'Vidro', quantidade: 214 },
 ];
 
 const chartConfig = {
-  desktop: {
-    label: 'Desktop',
-    color: '#4bd609',
-  },
-  mobile: {
-    label: 'Mobile',
+  quantidade: {
+    label: 'quantidade',
     color: '#4bd609',
   },
   label: {
@@ -65,7 +61,7 @@ export function BarChartLabel() {
           >
             <CartesianGrid horizontal={false} />
             <YAxis
-              dataKey="month"
+              dataKey="residuo"
               type="category"
               tickLine={false}
               tickMargin={10}
@@ -73,26 +69,26 @@ export function BarChartLabel() {
               tickFormatter={value => value.slice(0, 3)}
               hide
             />
-            <XAxis dataKey="desktop" type="number" hide />
+            <XAxis dataKey="quantidade" type="number" hide />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}
             />
             <Bar
-              dataKey="desktop"
+              dataKey="quantidade"
               layout="vertical"
-              fill="var(--color-desktop)"
+              fill="var(--color-quantidade)"
               radius={4}
             >
               <LabelList
-                dataKey="month"
+                dataKey="residuo"
                 position="insideLeft"
                 offset={8}
                 className="fill-[--color-label] font-bold"
                 fontSize={12}
               />
               <LabelList
-                dataKey="desktop"
+                dataKey="quantidade"
                 position="right"
                 offset={8}
                 className="fill-foreground"

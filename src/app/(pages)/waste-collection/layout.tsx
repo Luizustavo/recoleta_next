@@ -25,16 +25,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <SidebarProvider>
         <AuthProvider>
           <SidebarComponent />
-          <main>
+          <main className="w-screen">
             <div className="flex gap-3 items-center pt-2">
               <SidebarTrigger />
               <Separator orientation="vertical" className="mr-2 h-4" />
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="dashboard">Dashboard</BreadcrumbLink>
+                    <BreadcrumbLink href="dashboard">
+                      Gerenciar Coletas{' '}
+                    </BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator className="hidden md:block" />
+                  <BreadcrumbItem className="hidden md:block">
+                    <BreadcrumbLink href="collect">
+                      Coletar Resíduo
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>{' '}
               <ModeToggle />
