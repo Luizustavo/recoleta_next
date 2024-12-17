@@ -20,6 +20,11 @@ import {
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import * as z from 'zod';
+import { getAddress, createAddress } from '@/app/utils/address';
+import { useEffect } from 'react';
+import { Address } from '@/app/types/api-related-types';
+import { useAuth } from '@/hooks/use-auth';
+import { v4 as uuidv4 } from 'uuid';
 
 const schema = z.object({
   cep: z.string().min(1, { message: 'CEP é obrigatório' }),
@@ -33,14 +38,14 @@ const schema = z.object({
 
 type Schema = z.infer<typeof schema>;
 
-export default function EnderecoCadastro({
+export default function AddressRegister({
   nextStep,
   prevStep,
 }: {
   nextStep: () => void;
   prevStep: () => void;
 }) {
-  const [endereco, setEndereco] = useState<Schema>({
+  const [address, setAddress] = useState<Schema>({
     cep: '',
     rua: '',
     numero: '',
@@ -50,40 +55,21 @@ export default function EnderecoCadastro({
     estado: '',
   });
 
-  const [enderecosCadastrados] = useState([
-    {
-      id: 1,
-      rua: 'Rua das Flores',
-      numero: '123',
-      bairro: 'Centro',
-      cidade: 'São Paulo',
-      estado: 'SP',
-      cep: '01234-567',
-    },
-    {
-      id: 2,
-      rua: 'Avenida Paulista',
-      numero: '1000',
-      bairro: 'Bela Vista',
-      cidade: 'São Paulo',
-      estado: 'SP',
-      cep: '01310-100',
-    },
-  ]);
+  const [registeredAddresses, setregisteredAddresses] = useState<Address[]>([]);
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-
+  const { accessToken } = useAuth();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setEndereco(prev => ({ ...prev, [name]: value }));
+    setAddress(prev => ({ ...prev, [name]: value }));
   };
 
   const handleEstadoChange = (value: string) => {
-    setEndereco(prev => ({ ...prev, estado: value }));
+    setAddress(prev => ({ ...prev, estado: value }));
   };
 
   function resetAddress() {
-    setEndereco({
+    setAddress({
       cep: '',
       rua: '',
       numero: '',
@@ -107,7 +93,7 @@ export default function EnderecoCadastro({
       }
       const data = await response.json();
 
-      setEndereco(prev => ({
+      setAddress(prev => ({
         ...prev,
         rua: data.logradouro || '',
         bairro: data.bairro || '',
@@ -122,7 +108,7 @@ export default function EnderecoCadastro({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const result = schema.safeParse(endereco);
+    const result = schema.safeParse(address);
     if (!result.success) {
       // Armazenar os erros de validação no estado
       const newErrors: { [key: string]: string } = {};
@@ -134,8 +120,57 @@ export default function EnderecoCadastro({
       return;
     }
 
-    console.log('Endereço adicionado:', endereco);
+    console.log('Endereço adicionado:', address);
     nextStep(); // Avança para o próximo passo
+  };
+
+  useEffect(() => {
+    async function fetchData() {
+      if (accessToken) {
+        const dataAddress = await getAddress(accessToken);
+        setregisteredAddresses(dataAddress);
+      } else {
+        console.error('Access token is null');
+      }
+    }
+    fetchData();
+  }, [accessToken]);
+
+  const handleSaveAddress = async () => {
+    try {
+      const result = schema.safeParse(address);
+      if (!result.success) {
+        const newErrors: { [key: string]: string } = {};
+        result.error.errors.forEach(err => {
+          newErrors[err.path[0]] = err.message;
+        });
+        setErrors(newErrors);
+
+        return;
+      }
+
+      if (accessToken) {
+        const addressToSave: Address = {
+          userId: uuidv4(),
+          state: address.estado,
+          city: address.cidade,
+          street: address.rua,
+          number: address.numero,
+          neighborhood: address.bairro,
+          postalCode: address.cep,
+          complement: address.complemento || '',
+        };
+        await createAddress(addressToSave, accessToken);
+        const dataAddress = await getAddress(accessToken);
+        setregisteredAddresses(dataAddress);
+        resetAddress();
+        nextStep();
+      } else {
+        console.error('Access token is null');
+      }
+    } catch (error) {
+      console.error('Erro ao salvar o endereço:', error);
+    }
   };
 
   return (
@@ -156,21 +191,20 @@ export default function EnderecoCadastro({
 
           <TabsContent value="cadastrados">
             <form onSubmit={handleSubmit} className="space-y-4">
-              {enderecosCadastrados.map(endereco => (
-                <Card key={endereco.id}>
+              {registeredAddresses.map(address => (
+                <Card key={address.userId}>
                   <CardContent className="pt-6">
                     <p>
-                      <strong>Rua:</strong> {endereco.rua}, {endereco.numero}
+                      <strong>Rua:</strong> {address.street}, {address.number}
                     </p>
                     <p>
-                      <strong>Bairro:</strong> {endereco.bairro}
+                      <strong>Bairro:</strong> {address.neighborhood}
                     </p>
                     <p>
-                      <strong>Cidade:</strong> {endereco.cidade} -{' '}
-                      {endereco.estado}
+                      <strong>Cidade:</strong> {address.city} - {address.state}
                     </p>
                     <p>
-                      <strong>CEP:</strong> {endereco.cep}
+                      <strong>CEP:</strong> {address.postalCode}
                     </p>
                   </CardContent>
                 </Card>
@@ -192,10 +226,10 @@ export default function EnderecoCadastro({
                   <Input
                     id="cep"
                     name="cep"
-                    value={endereco.cep}
+                    value={address.cep}
                     onChange={handleChange}
                     placeholder="00000-000"
-                    onBlur={() => onChangeCep(endereco.cep)} // Chama a API ao perder o foco
+                    onBlur={() => onChangeCep(address.cep)} // Chama a API ao perder o foco
                   />
                   {errors.cep && (
                     <p className="text-red-500 text-sm">{errors.cep}</p>
@@ -206,7 +240,7 @@ export default function EnderecoCadastro({
                   <Input
                     id="numero"
                     name="numero"
-                    value={endereco.numero}
+                    value={address.numero}
                     onChange={handleChange}
                     placeholder="123"
                   />
@@ -220,7 +254,7 @@ export default function EnderecoCadastro({
                 <Input
                   id="rua"
                   name="rua"
-                  value={endereco.rua}
+                  value={address.rua}
                   onChange={handleChange}
                   placeholder="Rua das Flores"
                 />
@@ -233,7 +267,7 @@ export default function EnderecoCadastro({
                 <Input
                   id="complemento"
                   name="complemento"
-                  value={endereco.complemento}
+                  value={address.complemento}
                   onChange={handleChange}
                   placeholder="Apto 101"
                 />
@@ -243,7 +277,7 @@ export default function EnderecoCadastro({
                 <Input
                   id="bairro"
                   name="bairro"
-                  value={endereco.bairro}
+                  value={address.bairro}
                   onChange={handleChange}
                   placeholder="Centro"
                 />
@@ -258,7 +292,7 @@ export default function EnderecoCadastro({
                   <Input
                     id="cidade"
                     name="cidade"
-                    value={endereco.cidade}
+                    value={address.cidade}
                     onChange={handleChange}
                     placeholder="São Paulo"
                   />
@@ -270,7 +304,7 @@ export default function EnderecoCadastro({
                   <Label htmlFor="estado">Estado</Label>
                   <Select
                     onValueChange={handleEstadoChange}
-                    value={endereco.estado}
+                    value={address.estado}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Selecione o Estado" />
@@ -290,7 +324,9 @@ export default function EnderecoCadastro({
                 <Button type="button" onClick={prevStep}>
                   Voltar
                 </Button>
-                <Button type="submit">Avançar</Button>
+                <Button type="button" onClick={handleSaveAddress}>
+                  Cadastrar
+                </Button>
               </div>
             </form>
           </TabsContent>

@@ -13,7 +13,7 @@ import React from 'react';
 import Image from 'next/image';
 import { z } from 'zod';
 import { Select, SelectItem, Avatar } from '@nextui-org/react';
-import { registerUser } from '@/app/utils/apiUtils';
+import { registerUser } from '@/app/utils/api-utils';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 

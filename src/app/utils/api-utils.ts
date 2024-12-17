@@ -4,7 +4,7 @@ import {
   LoginResponse,
   ServerUserData,
   UserData,
-} from '../types/apiRelatedTypes';
+} from '../types/api-related-types';
 
 export const getAllUserData = async (
   accessToken: string

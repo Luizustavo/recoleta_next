@@ -16,7 +16,7 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="relative flex w-full h-screen overflow-hidden">
+    <main className="relative flex w-full h-screen overflow-hidden">
       <section
         className={`absolute top-0 right-0 w-1/2 h-full transition-transform duration-500 ease-in-out ${
           isLoginComponent ? 'translate-x-0' : '-translate-x-full'
@@ -30,7 +30,7 @@ export default function Page() {
         />
       </section>
 
-      <div
+      <section
         className={`flex flex-col items-center justify-center w-1/2 transition-transform duration-500 ease-in-out ${
           isLoginComponent ? 'translate-x-0' : 'translate-x-full'
         }`}
@@ -40,7 +40,7 @@ export default function Page() {
         ) : (
           <RegisterForm setIsLoginComponent={setIsLoginComponent} />
         )}
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

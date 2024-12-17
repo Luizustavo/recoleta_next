@@ -17,7 +17,7 @@ export default function Dashboard() {
   const { userData } = useAuth();
 
   return (
-    <div className="flex-1  ">
+    <div className="flex-1">
       <main className="p-3">
         <div className="grid md:grid-cols-5 gap-5">
           <Card className="w-full col-span-2">

@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import Container from '@/components/atoms/container';
-import { CollectCard, CollectProps } from '../CollectCard';
-import { getAvailableCollects } from '@/app/utils/apiUtils';
+import { CollectCard, CollectProps } from '../collect-card';
+import { getAvailableCollects } from '@/app/utils/api-utils';
 
 interface AvailableCollectsProps {
   accessToken: string; // Pass the access token for API calls

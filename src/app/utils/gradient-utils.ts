@@ -1,4 +1,4 @@
-import { applyBreakpointValues } from './screenSizeUtils';
+import { applyBreakpointValues } from './screen-size-utils';
 
 // utils/gradientUtils.ts
 export const getGradient = (

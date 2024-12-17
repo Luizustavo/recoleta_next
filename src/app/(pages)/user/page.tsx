@@ -1,12 +1,12 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ServerUserData } from '@/app/types/apiRelatedTypes';
-import { getUserById } from '@/app/utils/apiUtils';
-import { AvailableCollects } from '@/components/organisms/AvailableCollects';
+import { ServerUserData } from '@/app/types/api-related-types';
+import { getUserById } from '@/app/utils/api-utils';
+import { AvailableCollects } from '@/components/organisms/available-collects';
 
-import { UserProfileHeader } from '@/components/organisms/UserProfileHeader';
-import { CreateACollect } from '@/components/organisms/CreateACollect';
+import { UserProfileHeader } from '@/components/organisms/user-profile-header';
+import { CreateACollect } from '@/components/organisms/create-collect';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function UserHome() {

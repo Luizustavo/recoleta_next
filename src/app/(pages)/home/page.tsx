@@ -8,7 +8,7 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <div className="grid grid-rows-3 bg-black relative h-screen">
+    <main className="grid grid-rows-3 bg-black relative h-screen">
       <video
         src="/videos/barco_home.mp4"
         autoPlay
@@ -18,22 +18,22 @@ export default function Home() {
         className="absolute top-0 left-0 w-full h-full object-cover"
       ></video>
 
-      <span>
+      <header>
         <Header />
-      </span>
+      </header>
 
       {/* Título */}
-      <span className="relative z-10 text-white grid grid-cols-4 items-center sm:items-end px-10">
+      <section className="relative z-10 text-white grid grid-cols-4 items-center sm:items-end px-10">
         <h1
           className="text-2xl sm:text-6xl font-bold col-span-4 sm:col-span-2"
           style={{ textShadow: '1px 2px 4px rgba(0, 0, 0, 0.7)' }}
         >
           Junte-se a nós e venha fazer a diferença
         </h1>
-      </span>
+      </section>
 
       {/* Texto e Botões */}
-      <span className="relative z-10 text-white grid grid-cols-5 px-10 mt-4 ">
+      <section className="relative z-10 text-white grid grid-cols-5 px-10 mt-4 ">
         {/* Texto */}
         <div className="col-span-4 sm:col-span-2">
           <p
@@ -61,7 +61,7 @@ export default function Home() {
             </Button>
           </div>
         </div>
-      </span>
-    </div>
+      </section>
+    </main>
   );
 }

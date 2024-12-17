@@ -6,23 +6,25 @@ import Card from '@/components/atoms/card';
 export default function Sustainability() {
   return (
     <div className="h-screen flex flex-col">
-      <section className="flex-1 mx-28">
-        <div className="mt-16">
+      <div className="flex-1 mx-28">
+        <title className="mt-16">
           <h1 className="text-5xl font-bold flex leading-tight first-letter:font-light gap-3">
             ReColeta
             <span className="text-primary-dark">Sustentabilidade</span>
           </h1>
-        </div>
+        </title>
         <main className="mt-10">
-          <p className="text-lg">
-            Com as mudanças sociais e tecnológicas cada vez mais rápidas, é
-            necessário acompanhar o ritmo. Sabemos que o cuidado e a manutenção
-            do meio ambiente não podem ser ignorados. Com o mundo cada vez mais
-            conectado, precisamos de meios inteligentes e eficientes para lidar
-            com os resíduos que geramos.
-          </p>
+          <section>
+            <p className="text-lg">
+              Com as mudanças sociais e tecnológicas cada vez mais rápidas, é
+              necessário acompanhar o ritmo. Sabemos que o cuidado e a
+              manutenção do meio ambiente não podem ser ignorados. Com o mundo
+              cada vez mais conectado, precisamos de meios inteligentes e
+              eficientes para lidar com os resíduos que geramos.
+            </p>
+          </section>
 
-          <span className="flex gap-32 justify-center">
+          <section className="flex gap-32 justify-center">
             <Card
               title="Governaça"
               borderColor="bg-secondary"
@@ -38,9 +40,9 @@ export default function Sustainability() {
               borderColor="bg-tertiary-light"
               cardImage="/images/sociedade.svg"
             />
-          </span>
+          </section>
         </main>
-      </section>
+      </div>
 
       <footer className="w-full h-28 relative overflow-hidden">
         <Image

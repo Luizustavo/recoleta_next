@@ -25,3 +25,14 @@ export interface LoginResponse {
     // Other properties if applicable
   };
 }
+
+export interface Address {
+  userId: string;
+  state: string;
+  city: string;
+  street: string;
+  neighborhood: string;
+  number: string;
+  postalCode: string;
+  complement?: string;
+}

@@ -1,4 +1,4 @@
-import { ServerUserData } from '@/app/types/apiRelatedTypes';
+import { ServerUserData } from '@/app/types/api-related-types';
 import Container from '@/components/atoms/container';
 
 interface UserProfileProps {
