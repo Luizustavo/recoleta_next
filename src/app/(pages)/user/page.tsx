@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import { ServerUserData } from '@/app/types/api-related-types';
 import { getUserById } from '@/app/utils/api-utils';
 import { AvailableCollects } from '@/components/organisms/available-collects';
-
 import { UserProfileHeader } from '@/components/organisms/user-profile-header';
 import { CreateACollect } from '@/components/organisms/create-collect';
 import { Skeleton } from '@/components/ui/skeleton';
