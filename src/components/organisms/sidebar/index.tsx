@@ -115,7 +115,7 @@ const data = {
   projects: [
     {
       name: 'Dicas de Reciclagem',
-      url: '#',
+      url: '/sustainability-screen',
       icon: Lightbulb,
     },
     {

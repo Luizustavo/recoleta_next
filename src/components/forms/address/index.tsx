@@ -49,10 +49,10 @@ export default function AddressRegister({
     cep: '',
     rua: '',
     numero: '',
-    complemento: '',
     bairro: '',
     cidade: '',
     estado: '',
+    complemento: '',
   });
 
   const [registeredAddresses, setregisteredAddresses] = useState<Address[]>([]);
