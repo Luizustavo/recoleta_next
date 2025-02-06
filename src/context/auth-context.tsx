@@ -2,8 +2,8 @@
 
 import React, { createContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ServerUserData } from '@/app/types/apiRelatedTypes';
-import { getUserById } from '@/app/utils/apiUtils';
+import { ServerUserData } from '@/types/api-related-types';
+import { getUserById } from '@/utils/api-utils';
 
 interface AuthContextProps {
   userData: ServerUserData | null;

@@ -1,4 +1,4 @@
-import { getGradient } from '@/app/utils/gradientUtils';
+import { getGradient } from '@/utils/gradient-utils';
 import { ContainerProps } from '@/components/types/default-atom-types';
 
 import React from 'react';

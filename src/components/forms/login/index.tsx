@@ -6,7 +6,7 @@ import { Input } from '@nextui-org/react';
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { signIn } from 'next-auth/react';
-import { loginUser } from '@/app/utils/apiUtils';
+import { loginUser } from '@/utils/api-utils';
 import { useRouter } from 'next/navigation';
 
 interface LoginFormProps {
