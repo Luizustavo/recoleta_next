@@ -1,8 +1,8 @@
 'use client';
 
-import Home from './(pages)/home/page';
-import About from './(pages)/about/page';
-import Sustainability from './(pages)/sustainability/page';
+import Home from './(public)/home/page';
+import About from './(public)/about/page';
+import Sustainability from './(public)/sustainability/page';
 
 export default function App() {
   return (
