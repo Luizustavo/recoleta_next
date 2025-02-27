@@ -1,4 +1,4 @@
-import { applyBreakpointValues } from './screenSizeUtils';
+import { useBreakpointValues } from './screenSizeUtils';
 
 // utils/gradientUtils.ts
 export const getGradient = (
@@ -26,7 +26,7 @@ export const getGradient = (
   };
 };
 
-export const getGradientCoverageBreakpoints = (
+export const useGradientCoverageBreakpoints = (
   xs: string,
   sm: string,
   md: string,
@@ -34,7 +34,7 @@ export const getGradientCoverageBreakpoints = (
   xl: string,
   xxl: string
 ) =>
-  applyBreakpointValues({
+  useBreakpointValues({
     xs: xs,
     sm: sm,
     md: md,

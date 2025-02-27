@@ -12,7 +12,7 @@ const breakpoints: Record<BreakpointKeys, number> = {
   '2xl': 1536,
 };
 
-export const _screenSize = () => {
+export const useScreenSize = () => {
   const [screenSize, setScreenSize] = useState<BreakpointKeys | null>(null);
 
   useEffect(() => {
@@ -48,11 +48,11 @@ export const _screenSize = () => {
 };
 
 // Utility function to apply values based on breakpoints
-export const applyBreakpointValues = (
+export const useBreakpointValues = (
   breakpointValues: Partial<Record<BreakpointKeys, string | number>>,
   fallback: string = '0'
 ) => {
-  const screenSize = _screenSize();
+  const screenSize = useScreenSize();
   console.log('Current screen size in applyBreakpointValues:', screenSize);
 
   if (!screenSize) return fallback; // Return fallback if screen size is not available
@@ -74,7 +74,7 @@ export const applyBreakpointValues = (
     );
 
     // Update returnValue if current breakpoint is equal to or less than the screen size
-    if (breakpoints[breakpoint] <= breakpoints[screenSize]) {
+    if (screenSize && breakpoints[breakpoint] <= breakpoints[screenSize]) {
       returnValue = String(breakpointValues[breakpoint]);
       console.log(
         `Setting return value for breakpoint ${breakpoint}:`,

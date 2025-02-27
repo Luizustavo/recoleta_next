@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 
 import { loginUser } from '@/app/utils/apiUtils';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface LoginFormProps {
   setIsLoginComponent: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,10 +13,14 @@ interface LoginFormProps {
 
 export default function LoginForm({ setIsLoginComponent }: LoginFormProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isVisible, setIsVisible] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const redirectUri = searchParams.get('redirect_uri');
+  const state = searchParams.get('state');
 
   const validateEmail = (value: string) =>
     /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value);
@@ -48,11 +52,25 @@ export default function LoginForm({ setIsLoginComponent }: LoginFormProps) {
       if (response.status === 200) {
         const { accessToken, isAdmin, ...user } = response.data;
 
+        // Store auth data in localStorage
         localStorage.setItem('_id', user._id);
         localStorage.setItem('token', accessToken);
 
-        // Redirect to appropriate route based on user role
-        router.push(isAdmin ? '/admin' : '/user');
+        // Check if there's a redirect_uri (coming from News)
+        if (redirectUri && state) {
+          // Validate redirect_uri (optional security step)
+          const decodedUri = decodeURIComponent(redirectUri as string);
+          if (decodedUri.startsWith('https://recoleta-news.vercel.app')) {
+            // Redirect back to News with token and state
+            window.location.href = `${decodedUri}?token=${accessToken}&state=${state}`;
+          } else {
+            // Fallback if redirect_uri is invalid
+            router.push('/user');
+          }
+        } else {
+          // No redirect_uri, stay in Hub and route based on role
+          router.push(isAdmin ? '/admin' : '/user');
+        }
       } else {
         setError('Credenciais inválidas. Por favor, tente novamente.');
       }
