@@ -9,7 +9,7 @@ import {
   Recycle,
 } from 'lucide-react';
 import { Input } from '@nextui-org/react';
-import React from 'react';
+import React, { useCallback } from 'react';
 import Image from 'next/image';
 import { z } from 'zod';
 import { Select, SelectItem, Avatar } from '@nextui-org/react';
@@ -66,7 +66,7 @@ export default function RegisterForm({
       'A senha deve conter pelo menos um caractere especial.'
     );
 
-  const validateEmail = () => {
+  const validateEmail = useCallback(() => {
     try {
       emailSchema.parse(email);
       setEmailError('');
@@ -75,9 +75,9 @@ export default function RegisterForm({
         setEmailError(error.errors[0].message);
       }
     }
-  };
+  }, [email, emailSchema]);
 
-  const validatePassword = () => {
+  const validatePassword = useCallback(() => {
     try {
       passwordSchema.parse(password);
       setPasswordError('');
@@ -86,8 +86,7 @@ export default function RegisterForm({
         setPasswordError(error.errors[0].message);
       }
     }
-  };
-
+  }, [password, passwordSchema]);
   const handlePasswordChange = (value: string) => {
     setPassword(value);
     setPasswordTouched(true); // Marcando que o campo foi tocado
@@ -106,7 +105,7 @@ export default function RegisterForm({
   React.useEffect(() => {
     validateEmail();
     validatePassword();
-  }, [email, password]);
+  }, [validateEmail, validatePassword]);
 
   const handleRegister = async (): Promise<void> => {
     try {

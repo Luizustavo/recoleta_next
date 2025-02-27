@@ -1,11 +1,11 @@
 import Button from '@/components/atoms/button';
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
 import { Input } from '@nextui-org/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { loginUser } from '@/app/utils/apiUtils';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 interface LoginFormProps {
   setIsLoginComponent: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,14 +13,13 @@ interface LoginFormProps {
 
 export default function LoginForm({ setIsLoginComponent }: LoginFormProps) {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isVisible, setIsVisible] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const redirectUri = searchParams.get('redirect_uri');
-  const state = searchParams.get('state');
+  const [redirectUri, setRedirectUri] = useState<string | null>(null);
+  const [state, setState] = useState<string | null>(null);
 
   const validateEmail = (value: string) =>
     /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value);
@@ -79,6 +78,12 @@ export default function LoginForm({ setIsLoginComponent }: LoginFormProps) {
       console.error('Login error:', error);
     }
   };
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setRedirectUri(params.get('redirect_uri'));
+    setState(params.get('state'));
+  }, []);
 
   return (
     <div className="flex flex-col">
