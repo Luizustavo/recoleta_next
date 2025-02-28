@@ -1,7 +1,7 @@
 'use client';
 
 import Button from '@/components/atoms/button';
-import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, LoaderCircle } from 'lucide-react';
 import { Input } from '@nextui-org/react';
 import React, { useState } from 'react';
 import Image from 'next/image';
@@ -19,6 +19,7 @@ export default function LoginForm({ setIsLoginComponent }: LoginFormProps) {
   const [password, setPassword] = useState('');
   const [isVisible, setIsVisible] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const validateEmail = (value: string) =>
     /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value);
@@ -41,6 +42,7 @@ export default function LoginForm({ setIsLoginComponent }: LoginFormProps) {
     }
 
     try {
+      setIsLoading(true);
       setError(null);
       const response = await loginUser({
         email,
@@ -58,6 +60,7 @@ export default function LoginForm({ setIsLoginComponent }: LoginFormProps) {
       } else {
         setError('Credenciais inválidas. Por favor, tente novamente.');
       }
+      setIsLoading(false);
     } catch (error) {
       setError('Credenciais inválidas. Por favor, tente novamente.');
       console.error('Login error:', error);
@@ -112,9 +115,15 @@ export default function LoginForm({ setIsLoginComponent }: LoginFormProps) {
             </button>
           }
         />
-        <Button type="submit" variant="primaryFill" className="w-full">
-          Login
-        </Button>
+        {isLoading ? (
+          <Button variant="primaryFill" className="w-full" disabled>
+            <LoaderCircle className="animate-spin flex items-center justify-center" />
+          </Button>
+        ) : (
+          <Button type="submit" variant="primaryFill" className="w-full">
+            Login
+          </Button>
+        )}
       </form>
       {error && <div className="login-warning text-red-500 mt-4">{error}</div>}
 
